@@ -1,19 +1,6 @@
 #include <stdio.h>
-#include <malloc.h>
+#include "matrix_generator.h"
 
-typedef struct edge {
-    int start;
-    int end;
-    int weight;
-} edge_t;
-
-edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c);
-
-int **generate_adjacency_matrix(edge_t *edges, int vertex_cnt, int edge_cnt);
-
-int **generate_incidence_matrix(edge_t *edges, int vertex_cnt, int edge_cnt);
-
-void print_matrix(int **matrix, int rows, int cols);
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -44,6 +31,8 @@ int main(int argc, char **argv) {
     if (edges == NULL)
         return 1;
 
+    print_input_data(edges, vertex_count, edge_count);
+
     int **adjacency_m = generate_adjacency_matrix(edges, vertex_count, edge_count);
 
     printf("Macierz sasiedztwa:\n");
@@ -59,86 +48,3 @@ int main(int argc, char **argv) {
 }
 
 
-void print_matrix(int **matrix, int rows, int cols) {
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            printf("%d  ", matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-
-int **generate_adjacency_matrix(edge_t *edges, int vertex_cnt, int edge_cnt) {
-
-    int **adjacency_matrix = (int **) malloc(vertex_cnt * sizeof *adjacency_matrix);
-
-    for (int i = 0; i < vertex_cnt; i++)
-        adjacency_matrix[i] = (int *) calloc(vertex_cnt, sizeof **adjacency_matrix);
-
-    for (int i = 0; i < edge_cnt; i++)
-        adjacency_matrix[edges[i].start][edges[i].end] = edges[i].weight;
-
-    return adjacency_matrix;
-}
-
-
-int **generate_incidence_matrix(edge_t *edges, int vertex_cnt, int edge_cnt) {
-
-    int **incidence_matrix = (int **) malloc(vertex_cnt * sizeof *incidence_matrix);
-
-    for (int i = 0; i < vertex_cnt; i++)
-        incidence_matrix[i] = (int *) calloc(edge_cnt, sizeof **incidence_matrix);
-
-    for (int i = 0; i < edge_cnt; i++) {
-        if (edges[i].start == edges[i].end) {
-            incidence_matrix[edges[i].start][i] = 2;
-            continue;
-        }
-        incidence_matrix[edges[i].start][i] = 1;
-        incidence_matrix[edges[i].end][i] = -1;
-    }
-
-
-    return incidence_matrix;
-}
-
-edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c) {
-    int in_tmp, in_edge_count = 0, edges_count = 0, in_count = 0;
-    edge_t *edges = malloc(sizeof *edges);
-    while (fscanf(f, "%d", &in_tmp) != EOF) {
-        switch (in_count) {
-            case 0:
-                *vertex_c = in_tmp;
-                in_count++;
-                continue;
-            case 1:
-                *edge_c = in_tmp;
-                in_count++;
-                continue;
-        }
-
-
-        switch (in_edge_count) {
-            case 0:
-                edges = realloc(edges, (edges_count + 1) * sizeof *edges);
-                edges[edges_count].start = in_tmp;
-                in_edge_count++;
-                break;
-            case 1:
-                edges[edges_count].end = in_tmp;
-                in_edge_count++;
-                break;
-            case 2:
-                edges[edges_count].weight = in_tmp;
-                in_edge_count = 0;
-                edges_count++;      //zwiększenie ilości krawędzi następuje jedynie jeżeli wczytano wszystkie 3 warotści
-                break;
-            default:
-                printf("Nastapil blad w czytaniu danych (switch).\n");
-                return NULL;
-        }
-        in_count++;
-    }
-    return edges;
-}
