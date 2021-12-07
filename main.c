@@ -11,7 +11,6 @@ int main(int argc, char **argv) {
         printf("Za mala liczba argumentow - podaj sciezke do pliku z definicja sgrafu.\n");
         return 1;
     }
-
     FILE *in = fopen(argv[1], "r");
 
     if (in == NULL) {

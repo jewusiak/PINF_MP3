@@ -1,4 +1,4 @@
-#include <malloc.h>
+#include <stdlib.h>
 #include "matrix_generator.h"
 
 void print_matrix(int **matrix, int rows, int cols) {
