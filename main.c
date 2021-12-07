@@ -1,5 +1,9 @@
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <stdlib.h>
 #include "matrix_generator.h"
+#include "labyrinth_manager.h"
 
 
 int main(int argc, char **argv) {
@@ -15,6 +19,12 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+int real=0;
+    int *lab=read_labyrinth(in,&real);
+    int random_weights = argc > 2 && strcmp(argv[2], "--random")==0 ? 1 : 0;
+
+    if(random_weights==1)
+        srand(time(NULL));
 
     /*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n
@@ -27,7 +37,7 @@ int main(int argc, char **argv) {
     */
 
     int edge_count = 0, vertex_count = 0;
-    edge_t *edges = load_edges(in, &edge_count, &vertex_count);
+    edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
     if (edges == NULL)
         return 1;
 

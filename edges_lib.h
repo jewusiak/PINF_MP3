@@ -13,7 +13,7 @@ typedef struct edge {
 
 
 
-edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c);
+edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random);
 
 void print_input_data(edge_t *edges, int vertex_cnt, int edge_cnt);
 

@@ -10,7 +10,7 @@ void print_input_data(edge_t *edges, int vertex_cnt, int edge_cnt) {
 }
 
 
-edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c) {
+edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random) {
     double in_tmp;
     int  in_edge_count = 0, edges_count = 0, in_count = 0;
     edge_t *edges = malloc(sizeof *edges);
@@ -35,7 +35,13 @@ edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c) {
                 break;
             case 1:
                 edges[edges_count].end = (int)in_tmp;
-                in_edge_count++;
+                if(random==1){
+                    in_edge_count=0;
+                    edges[edges_count].weight=(double)rand()/RAND_MAX*10.0;
+                    edges_count++;
+                }
+                else
+                    in_edge_count++;
                 break;
             case 2:
                 edges[edges_count].weight = in_tmp;
@@ -49,4 +55,10 @@ edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c) {
         in_count++;
     }
     return edges;
+}
+
+
+edge_t* load_labyrinth(FILE *f, int *vertexc, int *edgec){
+
+
 }
