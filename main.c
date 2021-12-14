@@ -18,12 +18,18 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-int real=0;
-    int *lab=read_labyrinth(in,&real);
-    int random_weights = argc > 2 && strcmp(argv[2], "--random")==0 ? 1 : 0;
-
-    if(random_weights==1)
         srand(time(NULL));
+
+
+    lab_t lab = read_labyrinth(in);
+    for (int i = 0; i < lab.raw_size; i++) {
+        for (int j = 0; j < lab.raw_size; j++)
+            printf("%d\t", lab.data[i][j]);
+        printf("\n");
+    }
+
+    edge_db edb={.size=0};
+add(0,0,-99, &lab, &edb);
 
     /*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n
@@ -36,8 +42,8 @@ int real=0;
     */
 
     int edge_count = 0, vertex_count = 0;
-    edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
-    if (edges == NULL)
+    //edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
+   /* if (edges == NULL)
         return 1;
 
     print_input_data(edges, vertex_count, edge_count);
@@ -51,7 +57,7 @@ int real=0;
 
     printf("Macierz incydencji:\n");
     print_matrix(incidence_m, vertex_count, edge_count);
-
+*/
 
     return 0;
 }

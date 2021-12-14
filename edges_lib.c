@@ -12,16 +12,16 @@ void print_input_data(edge_t *edges, int vertex_cnt, int edge_cnt) {
 
 edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random) {
     double in_tmp;
-    int  in_edge_count = 0, edges_count = 0, in_count = 0;
+    int in_edge_count = 0, edges_count = 0, in_count = 0;
     edge_t *edges = malloc(sizeof *edges);
     while (fscanf(f, "%lf", &in_tmp) != EOF) {
         switch (in_count) {
             case 0:
-                *vertex_c = (int)in_tmp;
+                *vertex_c = (int) in_tmp;
                 in_count++;
                 continue;
             case 1:
-                *edge_c = (int)in_tmp;
+                *edge_c = (int) in_tmp;
                 in_count++;
                 continue;
         }
@@ -30,17 +30,16 @@ edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random) {
         switch (in_edge_count) {
             case 0:
                 edges = realloc(edges, (edges_count + 1) * sizeof *edges);
-                edges[edges_count].start = (int)in_tmp;
+                edges[edges_count].start = (int) in_tmp;
                 in_edge_count++;
                 break;
             case 1:
-                edges[edges_count].end = (int)in_tmp;
-                if(random==1){
-                    in_edge_count=0;
-                    edges[edges_count].weight=(double)rand()/RAND_MAX*10.0;
+                edges[edges_count].end = (int) in_tmp;
+                if (random == 1) {
+                    in_edge_count = 0;
+                    edges[edges_count].weight = (double) rand() / RAND_MAX * 10.0;
                     edges_count++;
-                }
-                else
+                } else
                     in_edge_count++;
                 break;
             case 2:
@@ -58,7 +57,17 @@ edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random) {
 }
 
 
-edge_t* load_labyrinth(FILE *f, int *vertexc, int *edgec){
+void add_edge_rnd(int from, int to, edge_db *edgeDb){
+    edgeDb->size++;
+    if (edgeDb->size == 1)
+        edgeDb->data = malloc(sizeof *edgeDb->data);
+    else
+        edgeDb->data = realloc(edgeDb->data, edgeDb->size * sizeof *edgeDb->data);
+    edge_t edge={.start=from, .end=to, .weight=(double)rand()/RAND_MAX*10.0};
+    edgeDb->data[edgeDb->size-1]=edge;
+}
 
+edge_t *load_labyrinth(FILE *f, int *vertexc, int *edgec) {
+    return NULL;
 
 }
