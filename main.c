@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <time.h>
 #include <stdlib.h>
 #include "matrix_generator.h"
@@ -18,7 +17,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-        srand(time(NULL));
+    srand(time(NULL));
 
 
     lab_t lab = read_labyrinth(in);
@@ -28,10 +27,16 @@ int main(int argc, char **argv) {
         printf("\n");
     }
 
-    edge_db edb={.size=0};
-add(0,0,-99, &lab, &edb);
+    edge_db edb = {.size=0};
+    add(0, 0, -99, &lab, &edb);
+    Matrix *adjacency_m = generate_adjacency_matrix(edb);
+    Matrix *incidence_m = generate_incidence_matrix(edb);
+    puts("Sasiedztwa:");
+    print_matrix(adjacency_m);
+    puts("Incyndencji:");
+    print_matrix(incidence_m);
 
-    /*
+/*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n
      * Następnie definiujemy krawedzie w grafie w formacie: <1-wierchołek> <2-wierzchołek> <waga>\n
      * Kolejność podawania wierzchołków ma znaczenie, gdyż taki będzie kierunek w sgrafie.
@@ -43,21 +48,21 @@ add(0,0,-99, &lab, &edb);
 
     int edge_count = 0, vertex_count = 0;
     //edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
-   /* if (edges == NULL)
-        return 1;
+    /* if (edges == NULL)
+         return 1;
 
-    print_input_data(edges, vertex_count, edge_count);
+     print_input_data(edges, vertex_count, edge_count);
 
-    int **adjacency_m = generate_adjacency_matrix(edges, vertex_count, edge_count);
+     int **adjacency_m = generate_adjacency_matrix(edges, vertex_count, edge_count);
 
-    printf("Macierz sasiedztwa:\n");
-    print_matrix(adjacency_m, vertex_count, vertex_count);
+     printf("Macierz sasiedztwa:\n");
+     print_matrix(adjacency_m, vertex_count, vertex_count);
 
-    int **incidence_m = generate_incidence_matrix(edges, vertex_count, edge_count);
+     int **incidence_m = generate_incidence_matrix(edges, vertex_count, edge_count);
 
-    printf("Macierz incydencji:\n");
-    print_matrix(incidence_m, vertex_count, edge_count);
-*/
+     printf("Macierz incydencji:\n");
+     print_matrix(incidence_m, vertex_count, edge_count);
+ */
 
     return 0;
 }

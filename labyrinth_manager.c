@@ -56,20 +56,20 @@ void add(int real_r, int real_c, int real_prev, lab_t *lab, edge_db *edges) {
         add_edge_rnd(real_prev, real_this, edges);
 
     real_next = real_this - 10;
-    if (real_r != 0 && lab->data[raw_r -1][raw_c] == 0&& real_next != real_prev) {//go up
+    if (real_r != 0 && lab->data[raw_r -1][raw_c] == 0&& real_next != real_prev) //go up
         add(real_r - 1, real_c, real_this, lab, edges);
-    }
+
     real_next = real_this + 10;
-    if (real_r != lab->real_size - 1 && lab->data[raw_r + 1][raw_c] == 0 && real_next!=real_prev) { //go down
+    if (real_r != lab->real_size - 1 && lab->data[raw_r + 1][raw_c] == 0 && real_next!=real_prev)  //go down
         add(real_r + 1, real_c, real_this, lab, edges);
-    }
+
     real_next = real_this - 1;
-    if (real_c != 0 &&  lab->data[raw_r ][raw_c-1] == 0&& real_next != real_prev) {//go left
+    if (real_c != 0 &&  lab->data[raw_r ][raw_c-1] == 0&& real_next != real_prev) //go left
         add(real_r, real_c - 1, real_this, lab, edges);
-    }
+
     real_next = real_this + 1;
-    if (real_c != lab->real_size - 1  && lab->data[raw_r ][raw_c+1] == 0&& real_next != real_prev) {//go right
+    if (real_c != lab->real_size - 1  && lab->data[raw_r ][raw_c+1] == 0&& real_next != real_prev) //go right
         add(real_r, real_c + 1, real_this, lab, edges);
-    }
+
 
 }

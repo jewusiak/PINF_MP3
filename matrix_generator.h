@@ -2,12 +2,24 @@
 #define PINF_MP3_MATRIX_GENERATOR_H
 
 #include "edges_lib.h"
+#include <stdlib.h>
 
+typedef struct {
+    int **mat;
+    int r;
+    int c;
+} Matrix;
 
-int **generate_adjacency_matrix(edge_t *edges, int vertex_cnt, int edge_cnt);
+Matrix *create_matrix_malloc(int r, int c) ;
 
-int **generate_incidence_matrix(edge_t *edges, int vertex_cnt, int edge_cnt);
+Matrix *create_matrix_calloc(int r, int c) ;
 
-void print_matrix(int **matrix, int rows, int cols);
+int count_vertices(edge_db edges);
+
+Matrix *generate_adjacency_matrix(edge_db edges);
+
+Matrix *generate_incidence_matrix(edge_db edges);
+
+void print_matrix(Matrix *ptr);
 
 #endif
