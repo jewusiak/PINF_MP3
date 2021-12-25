@@ -27,10 +27,10 @@ int main(int argc, char **argv) {
         printf("\n");
     }
 
-    edge_db edb = {.size=0};
-    add(0, 0, -99, &lab, &edb);
-    Matrix *adjacency_m = generate_adjacency_matrix(edb);
-    Matrix *incidence_m = generate_incidence_matrix(edb);
+    extern edge_db edges;
+    add(0, 0, -99, &lab);
+    Matrix *adjacency_m = generate_adjacency_matrix(edges);
+    Matrix *incidence_m = generate_incidence_matrix(edges);
     puts("Sasiedztwa:");
     print_matrix(adjacency_m);
     puts("Incyndencji:");

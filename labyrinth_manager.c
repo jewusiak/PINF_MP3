@@ -59,34 +59,35 @@ typedef struct{
     int size;
 } point_db;
 
+extern edge_db edges;
 
-void add(int real_r, int real_c, int real_prev, lab_t *lab, edge_db *edges) {
+void add(int real_r, int real_c, int real_prev, lab_t *lab) {
     int a;
-    if(edges->size==9)
+    if(edges.size==9)
         a=1;
     int real_this = 10 * real_r + real_c;
     int raw_r = real_r * 2 + 1;
     int raw_c = real_c * 2 + 1;
     int real_next;
     if (real_prev != -99)
-        if(add_edge_rnd(real_prev, real_this, edges)==2)
+        if(add_edge_rnd(real_prev, real_this)==2)
             return;
 
     real_next = real_this - 10;
     if (real_r != 0 && lab->data[raw_r -1][raw_c] == 0&& real_next != real_prev) //go up
-        add(real_r - 1, real_c, real_this, lab, edges);
+        add(real_r - 1, real_c, real_this, lab);
 
     real_next = real_this + 10;
     if (real_r != lab->real_size - 1 && lab->data[raw_r + 1][raw_c] == 0 && real_next!=real_prev)  //go down
-        add(real_r + 1, real_c, real_this, lab, edges);
+        add(real_r + 1, real_c, real_this, lab);
 
     real_next = real_this - 1;
     if (real_c != 0 &&  lab->data[raw_r ][raw_c-1] == 0&& real_next != real_prev) //go left
-        add(real_r, real_c - 1, real_this, lab, edges);
+        add(real_r, real_c - 1, real_this, lab);
 
     real_next = real_this + 1;
     if (real_c != lab->real_size - 1  && lab->data[raw_r ][raw_c+1] == 0&& real_next != real_prev) //go right
-        add(real_r, real_c + 1, real_this, lab, edges);
+        add(real_r, real_c + 1, real_this, lab);
 
 
 }
