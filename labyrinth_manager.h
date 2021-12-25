@@ -10,6 +10,9 @@ typedef struct {
     int raw_size;
 } lab_t;
 
+
+
+
 lab_t read_labyrinth(FILE *f);
 
 void add(int real_r, int real_c, int real_prev, lab_t *lab, edge_db *edges);

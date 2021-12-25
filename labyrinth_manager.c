@@ -46,14 +46,31 @@ lab_t read_labyrinth(FILE *f) {
 
 }
 
+typedef enum {NORMAL, START, END} point_type;
+
+typedef struct e{
+    int this;
+    struct e *adjacent[4]; //jeżeli brak to adjacent[x]==-1
+    point_type type;
+} point_t;
+
+typedef struct{
+    point_t *data;
+    int size;
+} point_db;
+
 
 void add(int real_r, int real_c, int real_prev, lab_t *lab, edge_db *edges) {
+    int a;
+    if(edges->size==9)
+        a=1;
     int real_this = 10 * real_r + real_c;
     int raw_r = real_r * 2 + 1;
     int raw_c = real_c * 2 + 1;
     int real_next;
     if (real_prev != -99)
-        add_edge_rnd(real_prev, real_this, edges);
+        if(add_edge_rnd(real_prev, real_this, edges)==2)
+            return;
 
     real_next = real_this - 10;
     if (real_r != 0 && lab->data[raw_r -1][raw_c] == 0&& real_next != real_prev) //go up
@@ -73,3 +90,4 @@ void add(int real_r, int real_c, int real_prev, lab_t *lab, edge_db *edges) {
 
 
 }
+

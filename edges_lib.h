@@ -20,7 +20,7 @@ typedef struct{
 
 edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random);
 
-void add_edge_rnd(int from, int to, edge_db *edgeDb);
+int add_edge_rnd(int from, int to, edge_db *edgeDb);
 
 void print_input_data(edge_t *edges, int vertex_cnt, int edge_cnt);
 

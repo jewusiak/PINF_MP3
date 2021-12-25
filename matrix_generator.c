@@ -85,3 +85,8 @@ Matrix *generate_incidence_matrix(edge_db edges) {
 
     return incidence_matrix;
 }
+
+
+
+
+//search

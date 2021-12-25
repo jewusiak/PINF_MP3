@@ -22,4 +22,10 @@ Matrix *generate_incidence_matrix(edge_db edges);
 
 void print_matrix(Matrix *ptr);
 
+
+//search
+
+
+
+
 #endif

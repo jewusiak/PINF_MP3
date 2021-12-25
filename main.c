@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-#include "matrix_generator.h"
 #include "labyrinth_manager.h"
+#include "search.h"
 
 
 int main(int argc, char **argv) {
@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
     print_matrix(adjacency_m);
     puts("Incyndencji:");
     print_matrix(incidence_m);
+//search(adjacency_m);
 
 /*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n
