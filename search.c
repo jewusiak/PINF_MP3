@@ -10,6 +10,7 @@ typedef struct {
 extern Matrix *adjacency_m;
 extern Matrix *incidence_m;
 extern lab_t lab;
+extern edge_db edges;
 
 void add_to_sequence(int pnt, sequence_t *sequence) {
     if (sequence->size++ == 0)
@@ -72,6 +73,14 @@ int exists_in_sequence(int this, sequence_t *sequence){
             return 1;
     return 0;
 }
+
+double sum_sequence_weight(sequence_t *sequence){
+    double sum=0;
+    for(int i=0;i<sequence->size-1;i++)
+        sum+=get_weight((edge_t){.start=sequence->data[i], .end=sequence->data[i+1]});
+    return sum;
+}
+
 /*
  * Generalnie DFS przyjmuje dotychczasową sekwencję i kolejny element.
  * Idzie do każdego nieodwiedzonego w sequence sąsiada.
@@ -94,8 +103,9 @@ void DFS(sequence_t *sequence, int next) {
         printf("Scieżka: ");
         for(int i=0;i<sequence->size;i++)
             printf("%d\t",sequence->data[i]);
-        if(is_last(sequence->data[sequence->size-1])==1)
-            printf("(END!)");
+        if(is_last(sequence->data[sequence->size-1])==1) {
+            printf("(END, suma=%g!)", sum_sequence_weight(sequence));
+        }
         printf("\n");
     }
 

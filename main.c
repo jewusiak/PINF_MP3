@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
      * Oraz ich liczba musi być <= INT_MAX
     */
 
-    int edge_count = 0, vertex_count = 0;
+     int edge_count = 0, vertex_count = 0;
     //edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
     /* if (edges == NULL)
          return 1;

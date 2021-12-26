@@ -69,6 +69,14 @@ int does_edge_exist(edge_t edge) {
     return ident == 1 ? 2 : 0;
 }
 
+//Zwraca wagę krawędzi
+double get_weight(edge_t edge){
+    for (int i = 0; i < edges.size; i++)
+        if (edges.data[i].start == edge.start && edges.data[i].end == edge.end)
+            return edges.data[i].weight;
+    return -1;
+}
+
 //Zwraca wagę odwrotnej krawędzi
 double get_reversed_weight(edge_t edge) {
     for (int i = 0; i < edges.size; i++)
