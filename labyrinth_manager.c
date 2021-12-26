@@ -4,14 +4,14 @@
 
 #define MAX_LABIRYNTH_SIZE 21 //czyli w naszej notacji 10x10
 
-
+//0 - puste, 1 - ściana, 2 - początek, 3 - koniec
 lab_t read_labyrinth(FILE *f) {
     lab_t lab;
     lab.data = malloc(MAX_LABIRYNTH_SIZE * sizeof *lab.data);
     for (int i = 0; i < MAX_LABIRYNTH_SIZE; i++)
         lab.data[i] = calloc(MAX_LABIRYNTH_SIZE, sizeof **lab.data);
     int linec = 0, charc = 0;
-    //0 - puste, 1 - ściana, 2 - początek, 3 - koniec
+
 
     char c;
     while ((c = fgetc(f)) != EOF) {
@@ -62,9 +62,8 @@ typedef struct{
 extern edge_db edges;
 
 void add(int real_r, int real_c, int real_prev, lab_t *lab) {
-    int a;
-    if(edges.size==9)
-        a=1;
+
+
     int real_this = 10 * real_r + real_c;
     int raw_r = real_r * 2 + 1;
     int raw_c = real_c * 2 + 1;
@@ -92,3 +91,12 @@ void add(int real_r, int real_c, int real_prev, lab_t *lab) {
 
 }
 
+
+void init_add(lab_t *lab){
+    int i;
+    for(i=0;i<lab->real_size;i++)
+        if(lab->data[0][2*i+1]==2)
+            break;
+    lab->start_real_c=i;
+    add(0, i, -99, lab);
+}

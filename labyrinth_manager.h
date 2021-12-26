@@ -8,12 +8,15 @@ typedef struct {
     int **data;
     int real_size;
     int raw_size;
+    int start_real_c;
 } lab_t;
 
 
 
 
 lab_t read_labyrinth(FILE *f);
+
+void init_add(lab_t *lab);
 
 void add(int real_r, int real_c, int real_prev, lab_t *lab);
 

@@ -4,6 +4,10 @@
 #include "labyrinth_manager.h"
 #include "search.h"
 
+Matrix *adjacency_m;
+Matrix *incidence_m;
+lab_t lab;
+
 
 int main(int argc, char **argv) {
     if (argc < 2) {
@@ -20,7 +24,7 @@ int main(int argc, char **argv) {
     srand(time(NULL));
 
 
-    lab_t lab = read_labyrinth(in);
+    lab = read_labyrinth(in);
     for (int i = 0; i < lab.raw_size; i++) {
         for (int j = 0; j < lab.raw_size; j++)
             printf("%d\t", lab.data[i][j]);
@@ -28,14 +32,16 @@ int main(int argc, char **argv) {
     }
 
     extern edge_db edges;
-    add(0, 0, -99, &lab);
-    Matrix *adjacency_m = generate_adjacency_matrix(edges);
-    Matrix *incidence_m = generate_incidence_matrix(edges);
+    init_add(&lab);
+    adjacency_m = generate_adjacency_matrix(edges);
+    incidence_m = generate_incidence_matrix(edges);
     puts("Sasiedztwa:");
     print_matrix(adjacency_m);
     puts("Incyndencji:");
     print_matrix(incidence_m);
 //search(adjacency_m);
+
+    DFS_init(lab.start_real_c);
 
 /*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n
