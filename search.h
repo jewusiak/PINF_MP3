@@ -6,7 +6,6 @@
 
 
 
-//point_t get_point(int nr, edge_db *edges);
 
 void DFS_init(int start);
 

@@ -2,6 +2,12 @@
 #include "matrix_manager.h"
 
 
+/*
+ * Tworzy nową macierz bez wyzerowania elementów.
+ *
+ * Przyjmuje ilość rzędów i kolumn.
+ * Zwraca wskaźnik na nową macierz (Matrix *).
+ */
 Matrix *create_matrix_malloc(int r, int c) {
     Matrix *m = malloc(sizeof *m);
     m->r=r;
@@ -12,6 +18,12 @@ Matrix *create_matrix_malloc(int r, int c) {
     return m;
 }
 
+/*
+ * Tworzy nową macierz z wyzerowanymi elementami.
+ *
+ * Przyjmuje ilość rzędów i kolumn.
+ * Zwraca wskaźnik na nową macierz (Matrix *).
+ */
 Matrix *create_matrix_calloc(int r, int c) {
     Matrix *m = malloc(sizeof *m);
     m->r=r;
@@ -23,6 +35,11 @@ Matrix *create_matrix_calloc(int r, int c) {
 }
 
 
+/*
+ * Wypisuje na stdout macierz.
+ *
+ * Przyjmuje wskaźnik na macierz (Matrix *).
+ */
 void print_matrix(Matrix *ptr) {
     printf("\t");
     for (int i = 0; i < ptr->c; i++){
@@ -37,6 +54,12 @@ void print_matrix(Matrix *ptr) {
     }
 }
 
+/*
+ * Szuka w zbiorze krawędzi maksymalnego węzła w grafie.
+ *
+ * Przyjmuje zbiór krawędzi.
+ * Zwraca maksymalny numer węzła.
+ */
 int get_max_vertex_id(edge_db edges) {
     int max_v = -1;
     for (int i = 0; i < edges.size; i++) {
@@ -48,6 +71,13 @@ int get_max_vertex_id(edge_db edges) {
     return max_v;
 }
 
+
+/*
+ * Generuje macierz sąsiedztwa.
+ *
+ * Przyjmuje zbiór krawędzi.
+ * Zwraca macierz (Matrix *)
+ */
 Matrix *generate_adjacency_matrix(edge_db edges) {
 
 int vertex_cnt=get_max_vertex_id(edges)+1;
@@ -64,7 +94,12 @@ int vertex_cnt=get_max_vertex_id(edges)+1;
     return adjacency_matrix;
 }
 
-
+/*
+ * Generuje macierz incydencji.
+ *
+ * Przyjmuje zbiór krawędzi grafu.
+ * Zwraca macierz (Matrix *)
+ */
 Matrix *generate_incidence_matrix(edge_db edges) {
     int vertex_cnt=get_max_vertex_id(edges)+1;
     /*int **incidence_matrix = (int **) malloc(vertex_cnt * sizeof *incidence_matrix);
