@@ -17,13 +17,12 @@ typedef struct{
 } edge_db;
 
 
-extern edge_db edges;
 
 edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random);
 
-int add_edge_rnd(int from, int to);
+int add_edge_rnd(int from, int to, edge_db *edges);
 
-double get_weight(edge_t edge);
+double get_weight(edge_t edge, edge_db *edges);
 
 void print_input_data(edge_t *edges, int vertex_cnt, int edge_cnt);
 

@@ -6,9 +6,7 @@
 #include "file_manager.h"
 
 
-lab_t lab;
-Matrix *adjacency_m;
-Matrix *incidence_m;
+
 
 
 int main(int argc, char **argv) {
@@ -18,6 +16,7 @@ int main(int argc, char **argv) {
     if (in == NULL)
         return 1;//Niepowodzenie otwarcia pliku
 
+    lab_t lab;
 
     if ((lab = read_labyrinth(in)).real_size == -1)
         return 2; //Niepowodzenie czytania z pliku
@@ -29,14 +28,14 @@ int main(int argc, char **argv) {
         printf("\n");
     }*/
 
-
-    if(init_add(&lab)==1){
+    edge_db *edges=malloc(sizeof *edges);
+    if(init_add(&lab, edges)==1){
         puts("Brak pozycji początkowej!");
         return 3;
     }
 
-    adjacency_m = generate_adjacency_matrix(edges);
-    incidence_m = generate_incidence_matrix(edges);
+    Matrix *adjacency_m = generate_adjacency_matrix(*edges);
+    Matrix *incidence_m = generate_incidence_matrix(*edges);
 
     puts("Sasiedztwa:");
     print_matrix(adjacency_m);
@@ -45,7 +44,7 @@ int main(int argc, char **argv) {
 
 //search(adjacency_m);
 
-    DFS_init(lab.start_real_c);
+    DFS_init(lab.start_real_c, edges, adjacency_m, &lab);
 
 /*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n

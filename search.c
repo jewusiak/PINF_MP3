@@ -7,10 +7,7 @@ typedef struct {
     int size;
 } sequence_t;
 
-extern Matrix *adjacency_m;
-extern Matrix *incidence_m;
-extern lab_t lab;
-extern edge_db edges;
+
 
 /*
  * Dodaje do sekwencji.
@@ -48,7 +45,7 @@ sequence_t *duplicate_sequence(sequence_t *sequenceToDuplicate) {
  * Przyjmuje nr elementu dla którego ma znaleźć sąsiadów.
  * Zwraca (sequence_t *){->size=n}, dla n elementów.
  */
-sequence_t *get_adjacent(int this) {
+sequence_t *get_adjacent(int this, Matrix *adjacency_m) {
     sequence_t *found = malloc(sizeof *found);
     found->size=0;
     for (int i = 0; i < adjacency_m->c; i++)
@@ -66,10 +63,10 @@ sequence_t *get_adjacent(int this) {
  * 1 - jeżeli jest to ostatni element.
  * 0 - w przeciwnym wypadku
  */
-int is_last(int this) {
+int is_last(int this, lab_t *lab) {
     int real_c = this % 10;
     this = this / 10;//this==real_r
-    if (lab.data[this * 2 + 2][real_c * 2 + 1] == 3)
+    if (lab->data[this * 2 + 2][real_c * 2 + 1] == 3)
         return 1;
     return 0;
 }
@@ -96,10 +93,10 @@ int exists_in_sequence(int this, sequence_t *sequence) {
  * Przyjmuje ścieżkę.
  * Zwraca wagę.
  */
-double sum_sequence_weight(sequence_t *sequence) {
+double sum_sequence_weight(sequence_t *sequence, edge_db *edges) {
     double sum = 0;
     for (int i = 0; i < sequence->size - 1; i++)
-        sum += get_weight((edge_t) {.start=sequence->data[i], .end=sequence->data[i + 1]});
+        sum += get_weight((edge_t) {.start=sequence->data[i], .end=sequence->data[i + 1]}, edges);
     return sum;
 }
 
@@ -112,21 +109,21 @@ double sum_sequence_weight(sequence_t *sequence) {
  * Przyjmuje dotychczasową ścieżkę i kolejny element.
  * */
 
-void DFS(sequence_t *sequence, int next) {
+void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, lab_t *lab) {
     add_to_sequence(next, sequence);
-    sequence_t *adjacent= get_adjacent(next);
-    if (is_last(next) == 0) /*warunek na nieostatni element*/  {//posiada somsiadów
+    sequence_t *adjacent= get_adjacent(next, adjacency_m);
+    if (is_last(next, lab) == 0) /*warunek na nieostatni element*/  {//posiada somsiadów
         for (int i = 0; i<adjacent->size; i++)//dal każdego z somsiadów
             if (exists_in_sequence(adjacent->data[i], sequence) == 0)
-                DFS(duplicate_sequence(sequence), adjacent->data[i]);
+                DFS(duplicate_sequence(sequence), adjacent->data[i], edges, adjacency_m, lab);
 
 
     } else {//somsiadów ni ma
         printf("Sciezka: ");
         for (int i = 0; i < sequence->size; i++)
             printf("%d\t", sequence->data[i]);
-        if (is_last(sequence->data[sequence->size - 1]) == 1) {
-            printf("(END, suma=%g!)", sum_sequence_weight(sequence));
+        if (is_last(sequence->data[sequence->size - 1], lab) == 1) {
+            printf("(END, suma=%g!)", sum_sequence_weight(sequence, edges));
         }
         printf("\n");
     }
@@ -138,9 +135,9 @@ void DFS(sequence_t *sequence, int next) {
  *
  * Przyjmuje nr pierwszej pozycji.
  */
-void DFS_init(int start) {
+void DFS_init(int start, edge_db *edges, Matrix *adjacency_m, lab_t* lab) {
     sequence_t *seq = malloc(sizeof *seq);
     seq->size = 0;
-    DFS(seq, start);
+    DFS(seq, start, edges, adjacency_m, lab);
 }
 
