@@ -1,5 +1,6 @@
 
-#include "matrix_generator.h"
+#include "matrix_manager.h"
+
 
 Matrix *create_matrix_malloc(int r, int c) {
     Matrix *m = malloc(sizeof *m);
@@ -86,7 +87,9 @@ Matrix *generate_incidence_matrix(edge_db edges) {
     return incidence_matrix;
 }
 
+void generate_matrices(Matrix *adj, Matrix *inc){
+    adj= generate_adjacency_matrix(edges);
+    inc= generate_incidence_matrix(edges);
+}
 
 
-
-//search

@@ -2,7 +2,7 @@
 #define PINF_MP3_SEARCH_H
 
 #include <stdlib.h>
-#include "matrix_generator.h"
+#include "matrix_manager.h"
 
 
 

@@ -3,36 +3,38 @@
 #include <stdlib.h>
 #include "labyrinth_manager.h"
 #include "search.h"
+#include "file_manager.h"
 
+
+lab_t lab;
 Matrix *adjacency_m;
 Matrix *incidence_m;
-lab_t lab;
 
 
 int main(int argc, char **argv) {
-    if (argc < 2) {
-        printf("Za mala liczba argumentow - podaj sciezke do pliku z definicja sgrafu.\n");
-        return 1;
-    }
-    FILE *in = fopen(argv[1], "r");
-
-    if (in == NULL) {
-        printf("Nie udalo sie otworzyc pliku: %s\n", argv[1]);
-        return 1;
-    }
 
     srand(time(NULL));
+    FILE *in = open_file(argc, argv);
+    if (in == NULL)
+        return 1;//Niepowodzenie otwarcia pliku
 
 
-    lab = read_labyrinth(in);
+    if ((lab = read_labyrinth(in)).real_size == -1)
+        return 2; //Niepowodzenie czytania z pliku
+
+    /*//Wypisanie raw data
     for (int i = 0; i < lab.raw_size; i++) {
         for (int j = 0; j < lab.raw_size; j++)
             printf("%d\t", lab.data[i][j]);
         printf("\n");
-    }
+    }*/
 
-    extern edge_db edges;
-    init_add(&lab);
+
+    if(init_add(&lab)==1){
+        puts("Brak pozycji początkowej!");
+        return 3;
+    }
+    generate_matrices(adjacency_m, incidence_m);
     adjacency_m = generate_adjacency_matrix(edges);
     incidence_m = generate_incidence_matrix(edges);
     puts("Sasiedztwa:");
@@ -53,7 +55,7 @@ int main(int argc, char **argv) {
      * Oraz ich liczba musi być <= INT_MAX
     */
 
-     int edge_count = 0, vertex_count = 0;
+    int edge_count = 0, vertex_count = 0;
     //edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
     /* if (edges == NULL)
          return 1;

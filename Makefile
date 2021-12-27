@@ -1,7 +1,7 @@
 CC=cc
 
 all: mkdir
-	$(CC) ./*c -ggdb -obin/a.out
+	$(CC) ./*.c -ggdb -obin/a.out
 
 
 mkdir:

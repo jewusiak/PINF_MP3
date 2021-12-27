@@ -17,6 +17,7 @@ typedef struct{
 } edge_db;
 
 
+extern edge_db edges;
 
 edge_t *load_edges(FILE *f, int *edge_c, int *vertex_c, int random);
 

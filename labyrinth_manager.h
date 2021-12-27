@@ -13,12 +13,10 @@ typedef struct {
 
 
 
-
 lab_t read_labyrinth(FILE *f);
 
-void init_add(lab_t *lab);
+int init_add(lab_t *lab_tmp);
 
-void add(int real_r, int real_c, int real_prev, lab_t *lab);
 
 void translate_lab_to_edges(int **lab, int r_size, edge_db *edgeDb);
 
