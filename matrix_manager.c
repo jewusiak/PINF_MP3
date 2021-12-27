@@ -87,9 +87,4 @@ Matrix *generate_incidence_matrix(edge_db edges) {
     return incidence_matrix;
 }
 
-void generate_matrices(Matrix *adj, Matrix *inc){
-    adj= generate_adjacency_matrix(edges);
-    inc= generate_incidence_matrix(edges);
-}
-
 

@@ -34,13 +34,15 @@ int main(int argc, char **argv) {
         puts("Brak pozycji początkowej!");
         return 3;
     }
-    generate_matrices(adjacency_m, incidence_m);
+
     adjacency_m = generate_adjacency_matrix(edges);
     incidence_m = generate_incidence_matrix(edges);
+
     puts("Sasiedztwa:");
     print_matrix(adjacency_m);
     puts("Incyndencji:");
     print_matrix(incidence_m);
+
 //search(adjacency_m);
 
     DFS_init(lab.start_real_c);
@@ -55,7 +57,7 @@ int main(int argc, char **argv) {
      * Oraz ich liczba musi być <= INT_MAX
     */
 
-    int edge_count = 0, vertex_count = 0;
+    //int edge_count = 0, vertex_count = 0;
     //edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);
     /* if (edges == NULL)
          return 1;
