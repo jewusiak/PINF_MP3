@@ -42,9 +42,17 @@ int main(int argc, char **argv) {
     puts("Incyndencji:");
     print_matrix(incidence_m);
 
-//search(adjacency_m);
 
-    DFS_init(lab.start_real_c, edges, adjacency_m, &lab);
+    sequence_db *result_paths= malloc(sizeof *result_paths);
+    result_paths->size=0;
+
+    DFS_init(lab.start_real_c, edges, adjacency_m, &lab, result_paths);
+    puts("TESTA\n");
+    for(int i=0;i<result_paths->size;i++){
+        for(int j=0;j<result_paths->data[i]->size;j++)
+            printf("%d\t",result_paths->data[i]->data[j]);
+        printf("(Suma: %g)\n", result_paths->weight_sum[i]);
+    }
 
 /*
      * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n

@@ -2,10 +2,7 @@
 #include "edges_lib.h"
 #include "labyrinth_manager.h"
 
-typedef struct {
-    int *data;
-    int size;
-} sequence_t;
+
 
 
 
@@ -22,6 +19,23 @@ void add_to_sequence(int pnt, sequence_t *sequence) {
     sequence->data[sequence->size - 1] = pnt;
 }
 
+/*
+ * Dodaje sekwencję do zbioru sekwencji.
+ *
+ * Przyjmuje nowy element (sequence_t *) i wskaźnik na zbiór sekwencji.
+ */
+void add_to_sequence_db(sequence_t *pnt, sequence_db *sequenceDb, double weight_sum) {
+    if (sequenceDb->size++ == 0) {
+        sequenceDb->data = malloc(sizeof **sequenceDb->data);
+        sequenceDb->weight_sum=malloc(sizeof *sequenceDb->weight_sum);
+    }
+    else {
+        sequenceDb->data = realloc(sequenceDb->data, sequenceDb->size * sizeof **sequenceDb->data);
+        sequenceDb->weight_sum = realloc(sequenceDb->weight_sum, sequenceDb->size * sizeof *sequenceDb->weight_sum);
+    }
+    sequenceDb->data[sequenceDb->size - 1] = pnt;
+    sequenceDb->weight_sum[sequenceDb->size-1]=weight_sum;
+}
 
 /*
  * Duplikuje sekwencję - ściezkę.
@@ -109,16 +123,17 @@ double sum_sequence_weight(sequence_t *sequence, edge_db *edges) {
  * Przyjmuje dotychczasową ścieżkę i kolejny element.
  * */
 
-void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, lab_t *lab) {
+void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, lab_t *lab, sequence_db *result_paths) {
     add_to_sequence(next, sequence);
     sequence_t *adjacent= get_adjacent(next, adjacency_m);
     if (is_last(next, lab) == 0) /*warunek na nieostatni element*/  {//posiada somsiadów
         for (int i = 0; i<adjacent->size; i++)//dal każdego z somsiadów
             if (exists_in_sequence(adjacent->data[i], sequence) == 0)
-                DFS(duplicate_sequence(sequence), adjacent->data[i], edges, adjacency_m, lab);
+                DFS(duplicate_sequence(sequence), adjacent->data[i], edges, adjacency_m, lab, result_paths);
 
 
     } else {//somsiadów ni ma
+        add_to_sequence_db(sequence, result_paths, sum_sequence_weight(sequence, edges));
         printf("Sciezka: ");
         for (int i = 0; i < sequence->size; i++)
             printf("%d\t", sequence->data[i]);
@@ -135,9 +150,9 @@ void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, la
  *
  * Przyjmuje nr pierwszej pozycji.
  */
-void DFS_init(int start, edge_db *edges, Matrix *adjacency_m, lab_t* lab) {
+void DFS_init(int start, edge_db *edges, Matrix *adjacency_m, lab_t* lab, sequence_db *result_paths) {
     sequence_t *seq = malloc(sizeof *seq);
     seq->size = 0;
-    DFS(seq, start, edges, adjacency_m, lab);
+    DFS(seq, start, edges, adjacency_m, lab, result_paths);
 }
 
