@@ -29,6 +29,7 @@ int main(int argc, char **argv) {
     }*/
 
     edge_db *edges=malloc(sizeof *edges);
+    edges->size=0;
     if(init_add(&lab, edges)==1){
         puts("Brak pozycji początkowej!");
         return 3;
