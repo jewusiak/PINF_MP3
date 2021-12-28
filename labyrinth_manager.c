@@ -53,7 +53,11 @@ lab_t read_labyrinth(FILE *f) {
 }
 
 
-
+/*
+ * Przeszukuje wgłąb graf, dodaje krawędzie do zbioru.
+ *
+ * Przyjmuje rząd w labiryncie, kolumnę (zakres 0-9), ID poprzedniego elementu i wskaźnik na zbiór krawędzi.
+ */
 void add(int real_r, int real_c, int real_prev, lab_t *lab_tmp, edge_db *edges) {
     int real_this = 10 * real_r + real_c;
     int raw_r = real_r * 2 + 1;
