@@ -15,10 +15,11 @@
  */
 lab_t read_labyrinth(FILE *f) {
     lab_t lab;
+    lab.real_size=-1;
     lab.data = malloc(MAX_LABIRYNTH_SIZE * sizeof *lab.data);
     for (int i = 0; i < MAX_LABIRYNTH_SIZE; i++)
         lab.data[i] = calloc(MAX_LABIRYNTH_SIZE, sizeof **lab.data);
-    int linec = 0, charc = 0;
+    int linec= 0, charc = 0;
 
 
     char c;
@@ -38,6 +39,10 @@ lab_t read_labyrinth(FILE *f) {
                 break;
             case '\n':
                 linec++;
+                if(lab.real_size==-1){
+                    lab.real_size=(charc-1)/2;
+                    lab.raw_size=charc;
+                }
                 charc = 0;
                 continue;
             default:
@@ -48,8 +53,8 @@ lab_t read_labyrinth(FILE *f) {
     if (c == EOF)
         linec++;
 
-    lab.raw_size = linec;
-    lab.real_size = (linec - 1) / 2;
+   // lab.raw_size = linec;
+    //lab.real_size = (linec - 1) / 2;
     return lab;
 
 }
@@ -61,6 +66,8 @@ lab_t read_labyrinth(FILE *f) {
  * Przyjmuje rząd w labiryncie, kolumnę (zakres 0-9), ID poprzedniego elementu i wskaźniki na: zbiór krawędzi i labirynt.
  */
 void add(int real_r, int real_c, int real_prev, lab_t *lab, edge_db *edges) {
+
+
     int real_this = 10 * real_r + real_c;
     int raw_r = real_r * 2 + 1;
     int raw_c = real_c * 2 + 1;
@@ -106,6 +113,9 @@ int init_add(lab_t *lab, edge_db *edges){
         }
     if(line==-1)
         return 1;
+#ifdef DEBUG
+    puts("Czytanie krawędzi w labiryncie:");
+#endif
     lab->start_real_c=line;
     add(0, lab->start_real_c, -99, lab, edges);
     return 0;

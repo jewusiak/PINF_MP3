@@ -32,6 +32,7 @@ Należy zdefiniować labirynt w formacie:
 
 Gdzie `#` to ściana, `P` to wejście do labiryntu, zaś `K` to wyjście.
 Maksymalny rozmiar labiryntu to 10x10, czyli 21 znaków (#, P, K lub spacja) i 21 linii.
+<b>Należy dopilnować, by na końcach linii nie było spacji, tabulatorów.</b>
 
 ###Wywołanie
 

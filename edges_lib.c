@@ -133,27 +133,35 @@ double get_reversed_weight(edge_t edge, edge_db *edges) {
  * Przyjmuje: węzeł początkowy i końcowy, wskaźnik na zbiór krawędzi
  * Zwraca:
  * 0 - powowdzenie
- * -1 - błąd ogólny
  * 2 - istnieje identyczna
  */
 int add_edge_rnd(int from, int to, edge_db *edges) {
-    printf("%d -> %d (", from, to);
+
     edge_t edge = {.start=from, .end=to, .weight=(double) rand() / RAND_MAX * 10.0};
+#ifdef DEBUG
+    printf("%d -> %d (", from, to);
+#endif
     switch (does_edge_exist(edge, edges)) {
         case 0: //nie istnieje, czyli nic nie zmieniamy w edge
-            printf("Nie istnieje - 0)\n");
+#ifdef DEBUG
+            printf("Nie istnieje - 0) (Waga: %g)\n", edge.weight);
+#endif
             break;
         case 1: //istnieje identyczna, czyli wychodzimy z f()
-            printf("Identyczna - 1)\n");
+#ifdef DEBUG
+            printf("Identyczna - 1) (Waga: %g)\n", edge.weight);
+#endif
             return 2;
         case 2: //istnieje odwrotna, czyli kopiujemy weight
             edge.weight = get_reversed_weight(edge, edges);
-            printf("Odwrotna - 2)\n");
+#ifdef DEBUG
+            printf("Odwrotna - 2) (Waga: %g)\n", edge.weight);
+#endif
             break;
-        default:
-            fprintf(stderr, "Blad w add_edge_rnd()!\n");
-            return -1;
     }
+
+
+
     edges->size++;
     if (edges->size == 1)
         edges->data = malloc(sizeof *edges->data);
