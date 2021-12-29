@@ -3,9 +3,6 @@
 #include "labyrinth_manager.h"
 
 
-
-
-
 /*
  * Dodaje do ścieżki.
  *
@@ -27,14 +24,13 @@ void add_to_sequence(int pnt, sequence_t *sequence) {
 void add_to_sequence_db(sequence_t *pnt, sequence_db *sequenceDb, double weight_sum) {
     if (sequenceDb->size++ == 0) {
         sequenceDb->data = malloc(sizeof **sequenceDb->data);
-        sequenceDb->weight_sum=malloc(sizeof *sequenceDb->weight_sum);
-    }
-    else {
+        sequenceDb->weight_sum = malloc(sizeof *sequenceDb->weight_sum);
+    } else {
         sequenceDb->data = realloc(sequenceDb->data, sequenceDb->size * sizeof **sequenceDb->data);
         sequenceDb->weight_sum = realloc(sequenceDb->weight_sum, sequenceDb->size * sizeof *sequenceDb->weight_sum);
     }
     sequenceDb->data[sequenceDb->size - 1] = pnt;
-    sequenceDb->weight_sum[sequenceDb->size-1]=weight_sum;
+    sequenceDb->weight_sum[sequenceDb->size - 1] = weight_sum;
 }
 
 /*
@@ -61,7 +57,7 @@ sequence_t *duplicate_sequence(sequence_t *sequenceToDuplicate) {
  */
 sequence_t *get_adjacent(int this, Matrix *adjacency_m) {
     sequence_t *found = malloc(sizeof *found);
-    found->size=0;
+    found->size = 0;
     for (int i = 0; i < adjacency_m->c; i++)
         if (adjacency_m->mat[this][i] == 1)
             add_to_sequence(i, found);
@@ -122,25 +118,26 @@ double sum_sequence_weight(sequence_t *sequence, edge_db *edges) {
  *
  * Przyjmuje wskaźnik na dotychczasową ścieżkę, ID kolejnego elementu, wskaźniki na: zbiór krawędzi, macierz sąsiedztwa, zbiór ścieżek wynikowych.
  * */
-
 void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, lab_t *lab, sequence_db *result_paths) {
     add_to_sequence(next, sequence);
-    sequence_t *adjacent= get_adjacent(next, adjacency_m);
-    if (is_last(next, lab) == 0) /*warunek na nieostatni element*/  {//posiada somsiadów
-        for (int i = 0; i<adjacent->size; i++)//dal każdego z somsiadów
+    sequence_t *adjacent = get_adjacent(next, adjacency_m);
+    if (is_last(next, lab) == 0)  {//posiada sąsiadów
+        for (int i = 0; i < adjacent->size; i++)
             if (exists_in_sequence(adjacent->data[i], sequence) == 0)
                 DFS(duplicate_sequence(sequence), adjacent->data[i], edges, adjacency_m, lab, result_paths);
 
 
-    } else {//somsiadów ni ma
+    } else {//sąsiadów nie ma
         add_to_sequence_db(sequence, result_paths, sum_sequence_weight(sequence, edges));
+#ifdef DEBUG
         printf("Sciezka: ");
         for (int i = 0; i < sequence->size; i++)
             printf("%d\t", sequence->data[i]);
-        if (is_last(sequence->data[sequence->size - 1], lab) == 1) {
-            printf("(END, suma=%g!)", sum_sequence_weight(sequence, edges));
-        }
+
+        printf("(Suma=%g)", sum_sequence_weight(sequence, edges));
+
         printf("\n");
+#endif
     }
 
 }
@@ -150,7 +147,7 @@ void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, la
  *
  * Przyjmuje ID pierwszej pozycji, wskaźniki na: zbiór krawędzi, macierz sąsiedztwa, labirynt, zbiór ścieżek wynikowych.
  */
-void DFS_init(int start, edge_db *edges, Matrix *adjacency_m, lab_t* lab, sequence_db *result_paths) {
+void DFS_init(int start, edge_db *edges, Matrix *adjacency_m, lab_t *lab, sequence_db *result_paths) {
     sequence_t *seq = malloc(sizeof *seq);
     seq->size = 0;
     DFS(seq, start, edges, adjacency_m, lab, result_paths);

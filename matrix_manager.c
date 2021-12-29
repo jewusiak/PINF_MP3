@@ -41,13 +41,15 @@ Matrix *create_matrix_calloc(int r, int c) {
  * Przyjmuje wskaźniki na: plik/strumień i macierz.
  */
 void print_matrix(FILE *out, Matrix *ptr) {
-    fprintf(out,"\t");
-    for (int i = 0; i < ptr->c; i++){
+    fprintf(out,"\t\t");
+    for (int i = 0; i < ptr->c; i++)
         fprintf(out,"%d\t",i);
-    }
+    fprintf(out, "\n\t----");
+    for (int i = 0; i < ptr->c; i++)
+        fprintf(out,"----");
     fprintf(out,"\n");
     for (int i = 0; i < ptr->r; i++) {
-        fprintf(out,"%d\t",i);
+        fprintf(out,"%d\t|\t",i);
         for (int j = 0; j < ptr->c; j++)
             fprintf(out,"%d\t", ptr->mat[i][j]);
         fprintf(out,"\n");

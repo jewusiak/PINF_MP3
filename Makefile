@@ -1,8 +1,10 @@
 CC=cc
 
-all: mkdir
-	$(CC) ./*.c -ggdb -obin/a.out
+run: mkdir
+	$(CC) ./*.c -ggdb -obin/labsolver
 
+debug: mkdir
+	$(CC) ./*.c -ggdb -obin/labsolver -D DEBUG
 
 mkdir:
 	mkdir -p bin/
