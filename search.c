@@ -7,9 +7,9 @@
 
 
 /*
- * Dodaje do sekwencji.
+ * Dodaje do ścieżki.
  *
- * Przyjmuje nowy element (int) i wskaźnik na sekwencję.
+ * Przyjmuje ID nowego elementu i wskaźnik na ścieżkę.
  */
 void add_to_sequence(int pnt, sequence_t *sequence) {
     if (sequence->size++ == 0)
@@ -20,9 +20,9 @@ void add_to_sequence(int pnt, sequence_t *sequence) {
 }
 
 /*
- * Dodaje sekwencję do zbioru sekwencji.
+ * Dodaje ścieżkę do zbioru ścieżek.
  *
- * Przyjmuje nowy element (sequence_t *) i wskaźnik na zbiór sekwencji.
+ * Przyjmuje wskaźniki: na nowy element, na zbiór sekwencji oraz wartość sumy wag krawędzi scieżki.
  */
 void add_to_sequence_db(sequence_t *pnt, sequence_db *sequenceDb, double weight_sum) {
     if (sequenceDb->size++ == 0) {
@@ -56,7 +56,7 @@ sequence_t *duplicate_sequence(sequence_t *sequenceToDuplicate) {
 /*
  * Szuka sąsiadów.
  *
- * Przyjmuje nr elementu dla którego ma znaleźć sąsiadów.
+ * Przyjmuje ID elementu dla którego ma znaleźć sąsiadów i wskaźnik an macierz sąsiedztwa.
  * Zwraca (sequence_t *){->size=n}, dla n elementów.
  */
 sequence_t *get_adjacent(int this, Matrix *adjacency_m) {
@@ -71,7 +71,7 @@ sequence_t *get_adjacent(int this, Matrix *adjacency_m) {
 
 /* Sprawdza czy element jest elementem końcowym w labiryncie wyjściem z niego.
  *
- * Przyjmuje nr elementu.
+ * Przyjmuje ID elementu, wskaźnika na labirynt.
  * Korzysta z globalnej zmiennej labiryntu.
  * Zwraca:
  * 1 - jeżeli jest to ostatni element.
@@ -88,7 +88,7 @@ int is_last(int this, lab_t *lab) {
 /*
  * Sprawdza czy dany element istnieje w ścieżce.
  *
- * Przyjmuje numer elementu i ścieżkę.
+ * Przyjmuje ID elementu i wskaźnik na ścieżkę.
  * Zwraca:
  * 1 - jeżeli istnieje
  * 0 - jeżeli nie istnieje
@@ -104,7 +104,7 @@ int exists_in_sequence(int this, sequence_t *sequence) {
 /*
  * Sumuje wagę (długość) ścieżki.
  *
- * Przyjmuje ścieżkę.
+ * Przyjmuje wskaźniki na: ścieżkę, zbiór krawędzi.
  * Zwraca wagę.
  */
 double sum_sequence_weight(sequence_t *sequence, edge_db *edges) {
@@ -120,7 +120,7 @@ double sum_sequence_weight(sequence_t *sequence, edge_db *edges) {
  *
  * Dodaje ścieżkę do zbioru ścieżek jeżeli nie ma żadnych więciej sąsiadów, lub dotarł do końcowego.
  *
- * Przyjmuje dotychczasową ścieżkę i kolejny element.
+ * Przyjmuje wskaźnik na dotychczasową ścieżkę, ID kolejnego elementu, wskaźniki na: zbiór krawędzi, macierz sąsiedztwa, zbiór ścieżek wynikowych.
  * */
 
 void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, lab_t *lab, sequence_db *result_paths) {
@@ -148,7 +148,7 @@ void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, la
 /*
  * Inicjuje działanie algorytmu DFS.
  *
- * Przyjmuje nr pierwszej pozycji.
+ * Przyjmuje ID pierwszej pozycji, wskaźniki na: zbiór krawędzi, macierz sąsiedztwa, labirynt, zbiór ścieżek wynikowych.
  */
 void DFS_init(int start, edge_db *edges, Matrix *adjacency_m, lab_t* lab, sequence_db *result_paths) {
     sequence_t *seq = malloc(sizeof *seq);

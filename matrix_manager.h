@@ -20,7 +20,7 @@ Matrix *generate_adjacency_matrix(edge_db edges);
 
 Matrix *generate_incidence_matrix(edge_db edges);
 
-void print_matrix(Matrix *ptr);
+void print_matrix(FILE *out, Matrix *ptr);
 
 
 

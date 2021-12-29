@@ -15,7 +15,7 @@ typedef struct {
 
 lab_t read_labyrinth(FILE *f);
 
-int init_add(lab_t *lab_tmp, edge_db *edges);
+int init_add(lab_t *lab, edge_db *edges);
 
 
 void translate_lab_to_edges(int **lab, int r_size, edge_db *edgeDb);

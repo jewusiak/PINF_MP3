@@ -36,29 +36,29 @@ Matrix *create_matrix_calloc(int r, int c) {
 
 
 /*
- * Wypisuje na stdout macierz.
+ * Wypisuje na FILE* macierz.
  *
- * Przyjmuje wskaźnik na macierz (Matrix *).
+ * Przyjmuje wskaźniki na: plik/strumień i macierz.
  */
-void print_matrix(Matrix *ptr) {
-    printf("\t");
+void print_matrix(FILE *out, Matrix *ptr) {
+    fprintf(out,"\t");
     for (int i = 0; i < ptr->c; i++){
-        printf("%d\t",i);
+        fprintf(out,"%d\t",i);
     }
-    printf("\n");
+    fprintf(out,"\n");
     for (int i = 0; i < ptr->r; i++) {
-        printf("%d\t",i);
+        fprintf(out,"%d\t",i);
         for (int j = 0; j < ptr->c; j++)
-            printf("%d\t", ptr->mat[i][j]);
-        printf("\n");
+            fprintf(out,"%d\t", ptr->mat[i][j]);
+        fprintf(out,"\n");
     }
 }
 
 /*
- * Szuka w zbiorze krawędzi maksymalnego węzła w grafie.
+ * Szuka w zbiorze krawędzi maksymalnego ID węzła w grafie.
  *
  * Przyjmuje zbiór krawędzi.
- * Zwraca maksymalny numer węzła.
+ * Zwraca maksymalne ID węzła.
  */
 int get_max_vertex_id(edge_db edges) {
     int max_v = -1;
@@ -76,7 +76,7 @@ int get_max_vertex_id(edge_db edges) {
  * Generuje macierz sąsiedztwa.
  *
  * Przyjmuje zbiór krawędzi.
- * Zwraca macierz (Matrix *)
+ * Zwraca wskaźnik na macierz.
  */
 Matrix *generate_adjacency_matrix(edge_db edges) {
 
@@ -98,7 +98,7 @@ int vertex_cnt=get_max_vertex_id(edges)+1;
  * Generuje macierz incydencji.
  *
  * Przyjmuje zbiór krawędzi grafu.
- * Zwraca macierz (Matrix *)
+ * Zwraca wskaźnik na macierz.
  */
 Matrix *generate_incidence_matrix(edge_db edges) {
     int vertex_cnt=get_max_vertex_id(edges)+1;

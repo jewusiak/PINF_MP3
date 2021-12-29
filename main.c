@@ -39,9 +39,9 @@ int main(int argc, char **argv) {
     Matrix *incidence_m = generate_incidence_matrix(*edges);
 
     puts("Sasiedztwa:");
-    print_matrix(adjacency_m);
+    print_matrix(stdout,adjacency_m);
     puts("Incyndencji:");
-    print_matrix(incidence_m);
+    print_matrix(stdout,incidence_m);
 
 
     sequence_db *result_paths= malloc(sizeof *result_paths);
@@ -55,15 +55,7 @@ int main(int argc, char **argv) {
         printf("(Suma: %g)\n", result_paths->weight_sum[i]);
     }
 
-/*
-     * Najpierw definiujemy liczbę wierzchołków a później krawędzi: <V> <E>\n
-     * Następnie definiujemy krawedzie w grafie w formacie: <1-wierchołek> <2-wierzchołek> <waga>\n
-     * Kolejność podawania wierzchołków ma znaczenie, gdyż taki będzie kierunek w sgrafie.
-     * Kolejne krawędzie oddzielamy \n
-     * Ważne, aby dla n wierzchołków używać indeksów {0, 1, ..., n-1}.
-     * Wszystkie podawane liczby muszą być całkowite, w zakresie |x|<=INT_MAX
-     * Oraz ich liczba musi być <= INT_MAX
-    */
+
 
     //int edge_count = 0, vertex_count = 0;
     //edge_t *edges = load_edges(in, &edge_count, &vertex_count, random_weights);

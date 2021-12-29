@@ -24,6 +24,6 @@ int add_edge_rnd(int from, int to, edge_db *edges);
 
 double get_weight(edge_t edge, edge_db *edges);
 
-void print_input_data(edge_t *edges, int vertex_cnt, int edge_cnt);
+void print_input_data(FILE *out, edge_t *edges, int vertex_cnt, int edge_cnt);
 
 #endif

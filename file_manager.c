@@ -2,6 +2,8 @@
 
 /*
  * Otwiera plik z definicją obiektu
+ *
+ * Przyjmuje: liczbę argumentów wywowłania i ich zawartość tekstową.
  * Zwraca:
  * FILE * - powodzenie
  * NULL - niepowowdzenie
