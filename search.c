@@ -2,6 +2,7 @@
 #include "edges_lib.h"
 #include "labyrinth_manager.h"
 
+extern int mode;
 
 /*
  * Dodaje do ścieżki.
@@ -129,7 +130,7 @@ void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, la
 
     } else {//sąsiadów nie ma
         add_to_sequence_db(sequence, result_paths, sum_sequence_weight(sequence, edges));
-#ifdef DEBUG
+if (mode == 1) {
         printf("Sciezka: ");
         for (int i = 0; i < sequence->size; i++)
             printf("%d\t", sequence->data[i]);
@@ -137,7 +138,7 @@ void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, la
         printf("(Suma=%g)", sum_sequence_weight(sequence, edges));
 
         printf("\n");
-#endif
+}
     }
 
 }

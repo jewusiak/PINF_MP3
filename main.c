@@ -4,29 +4,47 @@
 #include "labyrinth_manager.h"
 #include "search.h"
 #include "file_manager.h"
+#include <string.h>
 
+int mode=0; //0 - normal; 1 - debug
 
 int main(int argc, char **argv) {
 
+    if(argc>2)
+        if(strcmp(argv[2],"--debug")==0)
+            mode=1;
+
     srand(time(NULL));
+
+    strchrd();
 
     //Otwarcie pliku
     FILE *in = open_file(argc, argv);
     if (in == NULL)
         return 4;
 
+
+
     lab_t lab;
 
     //Czytanie labiryntu z pliku
-    if ((lab = read_labyrinth(in)).real_size == -1)
+    if ((lab = read_labyrinth(in)).real_size == -1) {
+        fprintf(stderr, "Niedozwolone znaki!\n");
         return 2;
+    }else if(lab.real_size==-2){
+        fprintf(stderr, "Niekwadratowy labirynt/nieprawidlowe dane! (linec!=charc)\n");
+        return 2;
+    }else if(lab.real_size==-3){
+        fprintf(stderr, "Labirynt za duzy!\n");
+        return 2;
+    }
 
 
     //Wykrywanie krawędzi
     edge_db *edges = malloc(sizeof *edges);
     edges->size = 0;
     if (init_add(&lab, edges) == 1) {
-        printf("Brak pozycji początkowej!");
+        fprintf(stderr, "Brak pozycji poczatkowej!\n");
         return 3;
     }
 
@@ -62,10 +80,10 @@ int main(int argc, char **argv) {
 
     //Wypisanie najkrótszej ścieżki
     if (shortest_index == -1) {
-        puts("Nie znaleziono sciezek!\nMozliwe jest ze nie zdefiniowano punktu koncowego 'K'.");
+        fprintf(stderr,"Nie znaleziono sciezek!\nMozliwe jest ze nie zdefiniowano punktu koncowego 'K'.\n");
         return 1;
     } else {
-        printf("NAJKRÓTSZA:\nP > ");
+        printf("NAJKROTSZA:\nP > ");
         for (int i = 0; i < result_paths->data[shortest_index]->size; i++)
             printf("%d > ", result_paths->data[shortest_index]->data[i]);
         printf("K\t(Suma: %g)\n", result_paths->weight_sum[shortest_index]);

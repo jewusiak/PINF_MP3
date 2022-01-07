@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "edges_lib.h"
 
+extern int mode;
 
 /*
  * Wypisuje dane o krawędziach.
@@ -138,25 +139,25 @@ double get_reversed_weight(edge_t edge, edge_db *edges) {
 int add_edge_rnd(int from, int to, edge_db *edges) {
 
     edge_t edge = {.start=from, .end=to, .weight=(double) rand() / RAND_MAX * 10.0};
-#ifdef DEBUG
+if (mode==1) {
     printf("%d -> %d (", from, to);
-#endif
+}
     switch (does_edge_exist(edge, edges)) {
         case 0: //nie istnieje, czyli nic nie zmieniamy w edge
-#ifdef DEBUG
+if (mode==1) {
             printf("Nie istnieje - 0) (Waga: %g)\n", edge.weight);
-#endif
+}
             break;
         case 1: //istnieje identyczna, czyli wychodzimy z f()
-#ifdef DEBUG
+if (mode==1) {
             printf("Identyczna - 1) (Waga: %g)\n", edge.weight);
-#endif
+}
             return 2;
         case 2: //istnieje odwrotna, czyli kopiujemy weight
             edge.weight = get_reversed_weight(edge, edges);
-#ifdef DEBUG
+if (mode==1) {
             printf("Odwrotna - 2) (Waga: %g)\n", edge.weight);
-#endif
+}
             break;
     }
 

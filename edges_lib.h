@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 
-
 typedef struct edge {
     int start;
     int end;

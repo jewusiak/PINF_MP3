@@ -3,7 +3,7 @@
 
 #define MAX_LABIRYNTH_SIZE 21 //czyli w naszej notacji 10x10
 
-
+extern int mode;
 
 /*
  * Czyta labirynt z pliku.
@@ -12,6 +12,8 @@
  * Zwraca:
  * lab_t.real_size!=-1 - powodzenie
  * lab_t.real_size==-1 - nieznany znak (!= ' ', #, P, K, '\n')
+ * lab_t.real_size==-2 - labirynt niekwadratowy/nieprawidłowe dane
+ * lab_t.real_size==-3 - labirynt zbyt duży
  */
 lab_t read_labyrinth(FILE *f) {
     lab_t lab;
@@ -39,11 +41,15 @@ lab_t read_labyrinth(FILE *f) {
                 break;
             case '\n':
                 linec++;
+                if(linec>=21)
+                    return (lab_t){.real_size=-3};
                 if(lab.real_size==-1){
                     lab.real_size=(charc-1)/2;
                     lab.raw_size=charc;
                 }
                 charc = 0;
+                continue;
+            case '\r':
                 continue;
             default:
                 return (lab_t){.real_size=-1};
@@ -55,6 +61,11 @@ lab_t read_labyrinth(FILE *f) {
 
    // lab.raw_size = linec;
     //lab.real_size = (linec - 1) / 2;
+    if(linec!=charc){
+        return (lab_t){.real_size=-2};
+    }
+
+
     return lab;
 
 }
@@ -113,9 +124,9 @@ int init_add(lab_t *lab, edge_db *edges){
         }
     if(line==-1)
         return 1;
-#ifdef DEBUG
+if (mode == 1) {
     puts("Czytanie krawędzi w labiryncie:");
-#endif
+}
     lab->start_real_c=line;
     add(0, lab->start_real_c, -99, lab, edges);
     return 0;

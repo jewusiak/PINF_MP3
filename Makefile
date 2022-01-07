@@ -1,13 +1,7 @@
-CC=cc
+CC=gcc
 
-run: mkdir
-	$(CC) ./*.c -ggdb -obin/labsolver
+all:
+	$(CC) ./*.c -olabsolver
 
-debug: mkdir
-	$(CC) ./*.c -ggdb -obin/labsolver -D DEBUG
-
-interactive:
-	$(CC) ./*.c -ggdb -obin/labsolver -D INTRACTV
-
-mkdir:
-	mkdir -p bin/
+debug:
+	$(CC) ./*.c -g -olabsolver
