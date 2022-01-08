@@ -122,7 +122,7 @@ double sum_sequence_weight(sequence_t *sequence, edge_db *edges) {
 void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, lab_t *lab, sequence_db *result_paths) {
     add_to_sequence(next, sequence);
     sequence_t *adjacent = get_adjacent(next, adjacency_m);
-    if (is_last(next, lab) == 0)  {//posiada sąsiadów
+    if (is_last(next, lab) == 0) {//posiada sąsiadów
         for (int i = 0; i < adjacent->size; i++)
             if (exists_in_sequence(adjacent->data[i], sequence) == 0)
                 DFS(duplicate_sequence(sequence), adjacent->data[i], edges, adjacency_m, lab, result_paths);
@@ -130,15 +130,15 @@ void DFS(sequence_t *sequence, int next, edge_db *edges, Matrix *adjacency_m, la
 
     } else {//sąsiadów nie ma
         add_to_sequence_db(sequence, result_paths, sum_sequence_weight(sequence, edges));
-if (mode == 1) {
-        printf("Sciezka: ");
-        for (int i = 0; i < sequence->size; i++)
-            printf("%d\t", sequence->data[i]);
+        if (mode == 1) {
+            printf("Sciezka: ");
+            for (int i = 0; i < sequence->size; i++)
+                printf("%d\t", sequence->data[i]);
 
-        printf("(Suma=%g)", sum_sequence_weight(sequence, edges));
+            printf("(Suma=%g)", sum_sequence_weight(sequence, edges));
 
-        printf("\n");
-}
+            printf("\n");
+        }
     }
 
 }

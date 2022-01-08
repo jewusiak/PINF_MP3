@@ -15,8 +15,7 @@ int main(int argc, char **argv) {
             mode=1;
 
     srand(time(NULL));
-
-    strchrd();
+    
 
     //Otwarcie pliku
     FILE *in = open_file(argc, argv);
@@ -52,7 +51,7 @@ int main(int argc, char **argv) {
     Matrix *adjacency_m = generate_adjacency_matrix(*edges);
 
 
-#ifdef DEBUG
+if (mode == 1) {
     printf("Sasiedztwa:\n");
     print_matrix(stdout, adjacency_m);
 
@@ -60,7 +59,7 @@ int main(int argc, char **argv) {
     Matrix *incidence_m = generate_incidence_matrix(*edges);
     printf("Incyndencji:\n");
     print_matrix(stdout, incidence_m);
-#endif
+}
 
 
     sequence_db *result_paths = malloc(sizeof *result_paths);
